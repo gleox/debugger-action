@@ -7,6 +7,8 @@
 # Author: P3TERX
 # Blog: https://p3terx.com
 #=================================================
+TMATE_RELEASE_URL=${TMATE_RELEASE_URL:-"https://api.github.com/repos/tmate-io/tmate/releases"}
+TMATE_DOWNLOAD_URL=${TMATE_DOWNLOAD_URL:-"https://github.com/tmate-io/tmate/releases/download"}
 [ $(uname) != Linux ] && {
     echo -e "This operating system is not supported."
     exit 1
@@ -32,7 +34,7 @@ else
     exit 1
 fi
 echo -e "${INFO} Check the version of tmate ..."
-tmate_ver=$(curl -fsSL https://api.github.com/repos/tmate-io/tmate/releases | grep -o '"tag_name": ".*"' | head -n 1 | sed 's/"//g;s/v//g' | sed 's/tag_name: //g')
+tmate_ver=$(curl -fsSL "${TMATE_RELEASE_URL}" | grep -o '"tag_name": ".*"' | head -n 1 | sed 's/"//g;s/v//g' | sed 's/tag_name: //g')
 [ -z $tmate_ver ] && {
     echo -e "${ERROR} Unable to check the version, network failure or API error."
     exit 1
@@ -48,7 +50,7 @@ tmate_ver=$(curl -fsSL https://api.github.com/repos/tmate-io/tmate/releases | gr
 }
 tmate_name="tmate-${tmate_ver}-static-linux-${ARCH}"
 echo -e "${INFO} Download tmate ..."
-curl -fsSLO "https://github.com/tmate-io/tmate/releases/download/${tmate_ver}/${tmate_name}.tar.xz" || {
+curl -fsSLO "${TMATE_DOWNLOAD_URL}/${tmate_ver}/${tmate_name}.tar.xz" || {
     echo -e "${ERROR} Unable to download tmate, network failure or other error."
     exit 1
 }
