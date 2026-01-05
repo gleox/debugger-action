@@ -103,6 +103,11 @@ else
   )
 fi
 
+[ -n "${TMATE_SERVER_HOST}" ] && tmate -S "${TMATE_SOCK}" set -g tmate-server-host "${TMATE_SERVER_HOST}"
+[ -n "${TMATE_SERVER_PORT}" ] && tmate -S "${TMATE_SOCK}" set -g tmate-server-port "${TMATE_SERVER_PORT}"
+[ -n "${TMATE_SERVER_RSA_FINGERPRINT}" ] && tmate -S "${TMATE_SOCK}" set -g tmate-server-rsa-fingerprint "${TMATE_SERVER_RSA_FINGERPRINT}"
+[ -n "${TMATE_SERVER_ED25519_FINGERPRINT}" ] && tmate -S "${TMATE_SOCK}" set -g tmate-server-ed25519-fingerprint "${TMATE_SERVER_ED25519_FINGERPRINT}"
+
 tmate -S "${TMATE_SOCK}" wait tmate-ready
 TMATE_PID="$(tmate -S "${TMATE_SOCK}" display -p '#{pid}')"
 TMATE_SERVER_LOG="${TMATE_DIR}/tmate-server-${TMATE_PID}.log"
